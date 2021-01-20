@@ -2,7 +2,7 @@
     Class Conexao{
         private $server = "localhost";
         private $usuario = "root";
-        private $senha = "Metallica88.";
+        private $senha = "";
         private $dbname = "nivel";
 
         public function conectar(){
