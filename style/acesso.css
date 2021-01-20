@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+body, html{
+    width: 100%;
+    height: 100%;
+}
+
+header{
+    padding: 20px 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+div#mensagem{
+    padding: 10px 0;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: none;
+}
+
+div#mensagem.red{
+    background: #F90055;
+}
+
+div#formulario form{
+    width: 350px;
+    height: 150px;
+    border-radius: 5px;
+    padding: 20px 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    float: left;
+}
+
+div#formulario form#formularioCadastro{
+    display: none;
+    height: 150px;
+}
+
+div#formulario form div#button{
+    text-align: center;
+}
+
+div#formulario form div#button button{
+    margin-top: 30px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 14px 40px;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+div#formulario div#textoLogin{
+    display: none;
+}
+
+div#formulario div#textoCadastro,
+div#formulario div#textoLogin{
+    float: left;
+    width: 100px;
+    padding-top: 40px;
+    padding-left: 5px;
+}
+
+
+div#formulario div#textoCadastro span.subtitle,
+div#formulario div#textoLogin span.subtitle{
+    font-size: 20px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+div#formulario div#textoCadastro button,
+div#formulario div#textoLogin button{
+    margin-top: 30px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+}
