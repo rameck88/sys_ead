@@ -2,13 +2,11 @@ $(function(){
     $("button#btnAtt").on("click", function(e){
         e.preventDefault();
         
-        var campoNome = $("form#formularioAtt #nomeCadastro").val();
-        var campoEmail = $("form#formularioAtt #emailCadastro").val();
-        var campoSenha = $("form#formularioAtt #senhaCadastro").val();
+        var campoNome = $("form#formularioAtt #nomeAtt").val();
+        var campoEmail = $("form#formularioAtt #emailAtt").val();
+        var campoSenha = $("form#formularioAtt #senhaAtt").val();
+        var id = $("form#formularioAtt1 #id").val();
 
-        if(campoEmail.trim() == "" || campoSenha.trim() == "" || campoNome.trim() == ""){
-            $("div#mensagem").show().removeClass("red").html("Preencha todos os campos.");
-        }else{
             $.ajax({
                 url: "acoes/attPerfil.php",
                 type: "POST",
@@ -16,7 +14,8 @@ $(function(){
                     type: "att",
                     email: campoEmail,
                     senha: campoSenha,
-                    nome: campoNome
+                    nome: campoNome,
+                    id:id
                 },
 
                 success: function(retorno){
@@ -25,7 +24,7 @@ $(function(){
                     if(retorno["erro"]){
                         $("div#mensagem").show().addClass("red").html(retorno["mensagem"]);
                     }else{
-                        window.location = "perfil.php";
+                        window.location = "perfil3.php";
                     }
                 },
 
@@ -33,7 +32,7 @@ $(function(){
                     $("div#mensagem").show().addClass("red").html("Ocorreu um erro durante a solicitação");
                 }
             });
-        }
+        
     });
 
     $("button#btnAtt1").on("click", function(e){
@@ -43,6 +42,7 @@ $(function(){
         var campoNasc = $("form#formularioAtt1 #nascDateAtt").val();
         var campoTel = $("form#formularioAtt1 #telAtt").val();
         var campoprof = $("form#formularioAtt1 #profissaoAtt").val();
+        var id = $("form#formularioAtt1 #id").val();
 
         if(campoCpf.trim() == "" || campoNasc.trim() == "" || campoTel.trim() == "" || campoprof.trim() == ""){
             $("div#mensagem").show().removeClass("red").html("Preencha todos os campos.");
@@ -55,7 +55,9 @@ $(function(){
                     cpf: campoCpf,
                     dNasc: campoNasc,
                     tel: campoTel,
-                    profissao:campoprof
+                    profissao:campoprof,
+                    id:id
+
                 },
 
                 success: function(retorno){
@@ -64,7 +66,7 @@ $(function(){
                     if(retorno["erro"]){
                         $("div#mensagem").show().addClass("red").html(retorno["mensagem"]);
                     }else{
-                        window.location = "perfil.php";
+                        window.location = "perfil3.php";
                     }
                 },
 
@@ -109,7 +111,7 @@ $(function(){
                     if(retorno["erro"]){
                         $("div#mensagem").show().addClass("red").html(retorno["mensagem"]);
                     }else{
-                        window.location = "perfil.php";
+                        window.location = "perfil3.php";
                     }
                 },
 
