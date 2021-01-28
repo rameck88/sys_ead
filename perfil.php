@@ -6,11 +6,39 @@
 
         $conexaoClass = new Conexao();
         $conexao = $conexaoClass->conectar();
-        
+        $email = $_SESSION["usuario"][3];
+        $id    = $_SESSION["usuario"][2];
         $nivel = $_SESSION["usuario"][1];
         $nome  = $_SESSION["usuario"][0];
-    }else{
+        }else{
         echo "<script>window.location = 'login.php'</script>";
+    }
+    $query = $conexao->prepare(("SELECT * FROM perfil_user WHERE id_perfil=$id"));
+    $query->execute();
+         
+    if($query->rowCount()){
+        $userr = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+
+        $u_SESSION["usuario"] = array($userr["cpf"], $userr["d_nasc"], $userr["tel"], $userr["profissao"]);
+        $uCpf = $u_SESSION["usuario"][0];
+        $uNasc = $u_SESSION["usuario"][1];
+        $uTel  = $u_SESSION["usuario"][2];
+        $uProf  = $u_SESSION["usuario"][3];
+    }
+    $query = $conexao->prepare(("SELECT * FROM perfil_end WHERE id_end=$id"));
+    $query->execute();
+         
+    if($query->rowCount()){
+        $user_e = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+
+        $e_SESSION["usuario"] = array($user_e["bairro"], $user_e["cidade"], $user_e["endereco"], $user_e["estado"], $user_e["numero"], $user_e["cep"], $user_e["complemento"],);
+        $eBairro = $e_SESSION["usuario"][0];
+        $eCidade = $e_SESSION["usuario"][1];
+        $eEndereco  = $e_SESSION["usuario"][2];
+        $eEstado = $e_SESSION["usuario"][3];
+        $eNum = $e_SESSION["usuario"][4];
+        $eCep  = $e_SESSION["usuario"][5];
+        $eComplem  = $e_SESSION["usuario"][6];
     }
 ?>
 <html>
@@ -21,32 +49,7 @@
         <script type="text/javascript" src="script/acesso.js"></script>
     </head>
     <body>
-    <?php
-        
-        $query = $conexao->prepare(("SELECT u.*,pu.*,eu.* FROM usuarios as u INNER JOIN perfil_user as pu ON pu.id_user = u.id INNER JOIN perfil_end as eu ON eu.id_perfil = u.id"));
-        $query->execute();
-                
-        if($query->rowCount()){
-            $userr = $query->fetchAll(PDO::FETCH_ASSOC)[0];
-
-            $u_SESSION["usuario"] = array($userr["nome"], $userr["email"], $userr["nivel"], $userr["cpf"], $userr["d_nasc"], $userr["tel"], $userr["profissao"], $userr["bairro"], $userr["cidade"], $userr["endereco"], $userr["estado"], $userr["numero"], $userr["cep"], $userr["complemento"],);
-            $uNome = $u_SESSION["usuario"][0];
-            $uEmail = $u_SESSION["usuario"][1];
-            $uNivel  = $u_SESSION["usuario"][2];
-            $uCpf = $u_SESSION["usuario"][3];
-            $uNasc = $u_SESSION["usuario"][4];
-            $uTel  = $u_SESSION["usuario"][5];
-            $uProf  = $u_SESSION["usuario"][6];
-            $uBairro = $u_SESSION["usuario"][7];
-            $uCidade = $u_SESSION["usuario"][8];
-            $uEndereco  = $u_SESSION["usuario"][9];
-            $uEstado = $u_SESSION["usuario"][10];
-            $uNum = $u_SESSION["usuario"][11];
-            $uCep  = $u_SESSION["usuario"][12];
-            $uComplem  = $u_SESSION["usuario"][13];
-        }
-    ?>
-                     
+                      
     <div id="content">
             <div id="user">
                 <!-- comprimenta o usuario dizendo seu nivel de acesso -->
@@ -68,21 +71,22 @@
 
             <div id="formulario">
                 <form id="formularioAtt">
-                    <span class="title"><?php echo $uNome." e ".$uEmail." e ".$uCpf." e ".$uNasc; ?>atualize sua conta</span>
+                    <span class="title"><?php if($uCpf=="0")echo "insira seu cpf";else echo $uCpf;?>
+                    atualize sua conta</span>
 
                     <div id="linha">
                         <label for="nomeAtt">Nome</label>
-                        <input type="text" name="nomeCadastro" id="nomeCadastro" value="<?php echo $uNome;?>"/>
+                        <input type="text" name="nomeCadastro" id="nomeAtt" value="<?php echo $nome;?>"/>
                     </div>
 
                     <div id="linha">
                         <label for="emailAtt">Email</label>
-                        <input type="text" name="emailCadastro" id="emailCadastro" value="<?php echo $uEmail;?>" />
+                        <input type="text" name="emailCadastro" id="emailAtt" value="<?php echo $email;?>" />
                     </div>
 
                     <div id="linha">
                         <label for="senhaAtt">Senha</label>
-                        <input type="password" name="senhaCadastro" id="senhaCadastro" value="**********"/>
+                        <input type="password" name="senhaCadastro" id="senhaAtt" value="**********"/>
                     </div>
 
                     <div id="button">
@@ -92,22 +96,22 @@
                 <form id="formularioAtt1">
                     <div id="linha">
                         <label for="cpfAtt">Cpf</label>
-                        <input type="text" name="cpfAtt" id="cpfAtt" value="<?php echo $uCpf;?>" />
+                        <input type="text" name="cpfAtt" id="cpfAtt" value="<?php if($uCpf=="")echo "insira seu cpf";else echo $uCpf;?>" />
                     </div>
 
                     <div id="linha">
                         <label for="nascDateAtt">Data de nascimento</label>
-                        <input type="text" name="nascDateAtt" id="nascDateAtt" value="<?php echo $uNasc;?>" />
+                        <input type="text" name="nascDateAtt" id="nascDateAtt" value="<?php if($uNasc=="")echo "insira seu cpf!";else echo $uNasc;?>" />
                     </div>
 
                     <div id="linha">
                         <label for="telAtt">Telefone</label>
-                        <input type="text" name="telAtt" id="telAtt" value="<?php echo $uTel;?>"/>
+                        <input type="text" name="telAtt" id="telAtt" value="<?php if($uTel=="")echo "insira seu telefone!";else echo $uTel;?>"/>
                     </div>
 
                     <div id="linha">
                         <label for="profissaoAtt">Profissão</label>
-                        <input type="text" name="profissaoAtt" id="profissaoAtt" value="<?php echo $uProf;?>" />
+                        <input type="text" name="profissaoAtt" id="profissaoAtt" value="<?php if($uProf=="")echo "insira sua Profissão!";else echo $uProf;?>" />
                     </div>
 
                     <div id="button">
@@ -118,37 +122,37 @@
                 <span class="titleend">endereço</span>
                     <div id="linha">
                     <label for="bairroAtt">Bairro</label>
-                    <input type="text" name="bairroAtt" id="bairroAtt" value="<?php echo $uBairro;?>"/>
+                    <input type="text" name="bairroAtt" id="bairroAtt" value="<?php if($eBairro=="")echo "insira seu Bairro!";else echo $eBairro;?>"/>
                 </div>
 
                 <div id="linha">
                     <label for="cidAtt">Cidade</label>
-                    <input type="text" name="cidAtt" id="cidAtt" value="<?php echo $uCidade;?>" />
+                    <input type="text" name="cidAtt" id="cidAtt" value="<?php if($eCidade=="")echo "insira sua Cidade!";else echo $eCidade;?>" />
                 </div>
 
                 <div id="linha">
                     <label for="endAtt">Endereço</label>
-                    <input type="text" name="endAtt" id="endAtt" value="<?php echo $uEndereco;?>" />
+                    <input type="text" name="endAtt" id="endAtt" value="<?php if($eEndereco=="")echo "insira seu Endereço!";else echo $eEndereco;?>" />
                 </div>
 
                 <div id="linha">
                     <label for="estadoAtt">Estado</label>
-                    <input type="text" name="estadoAtt" id="estadoAtt" value="<?php echo $uEstado;?>"/>
+                    <input type="text" name="estadoAtt" id="estadoAtt" value="<?php if($eEstado=="")echo "insira seu Estado!";else echo $eEstado;?>"/>
                 </div>
 
                 <div id="linha">
                     <label for="numAtt">Numero</label>
-                    <input type="text" name="numAtt" id="numAtt" value="<?php echo $uNum;?>" />
+                    <input type="text" name="numAtt" id="numAtt" value="<?php if($eNum=="")echo "insira o Numero de sua residencia!";else echo $eNum;?>" />
                 </div>
 
                 <div id="linha">
                     <label for="cepAtt">CEP</label>
-                    <input type="text" name="cepAtt" id="cepAtt" value="<?php echo $uCep;?>"/>
+                    <input type="text" name="cepAtt" id="cepAtt" value="<?php if($eCep=="")echo "insira seu Cep!";else echo $eCep;?>"/>
                 </div>
 
                 <div id="linha">
                     <label for="complemAtt">Complemento</label>
-                    <input type="text" name="complemAtt" id="complemAtt" value="<?php echo $uComplem;?>" />
+                    <input type="text" name="complemAtt" id="complemAtt" value="<?php if($eComplem=="")echo "insira complemento residencial!";else echo $eComplem;?>" />
                 </div>
 
                 <div id="button">
